@@ -1,0 +1,5 @@
+logLevel: debug
+
+paths:
+  stream:
+    source: publisher

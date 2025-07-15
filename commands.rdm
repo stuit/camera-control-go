@@ -1,0 +1,16 @@
+
+# FFMPEG command (macOS)
+ffmpeg -re -f avfoundation -framerate 30 -video_size 640x480 -i "0" \
+  -vcodec libx264 -preset ultrafast -tune zerolatency \
+  -rtsp_transport tcp \
+  -f rtsp rtsp://localhost:8554/stream
+ffplay -fflags nobuffer -flags low_delay -framedrop -rtsp_transport tcp rtsp://localhost:8554/stream
+
+# Docker commands
+docker compose up --build -d
+docker compose down -v 
+
+# Go app API calls
+curl -X POST "http://localhost:8080/start" -H "Content-Type: application/json" -d "{\"camera_id\":\"1\",\"rtsp_url\":\"rtsp://localhost:8554/stream\",\"every_nth\":10}"
+curl -X POST "http://localhost:8080/stop?camera_id=1"
+
